@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity() {
     private lateinit var layout: View
     private lateinit var binding: ActivityMainBinding
+    private lateinit var permissionButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         layout = binding.mainLayout
         setContentView(view)
+        permissionButton = view.findViewById(R.id.button) as Button
+        permissionButton.setOnClickListener {
+            onClickRequestPermission(view)
+        }
     }
 
     private fun View.showSnackbar(
