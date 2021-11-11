@@ -3,5 +3,8 @@
     <string name="permission_required">Camera access is required to display the camera preview.</string>
     <string name="ok">OK</string>
     <string name="permission_granted">Permission is granted. You can use the camera now.</string>
-    <string name="request_permissions">Request Permissions</string>
+    <string name="camera">Camera</string>
+    <string name="read_contacts">Read Contacts</string>
+    <string name="contact_permission_required">Contact access is required to fetch number.</string>
+    <string name="contact_permission_granted">Permission is granted. You can read contacts now.</string>
 </resources>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,7 +17,8 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity() {
     private lateinit var layout: View
     private lateinit var binding: ActivityMainBinding
-    private lateinit var permissionButton: Button
+    private lateinit var cameraButton: Button
+    private lateinit var contactsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +26,13 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         layout = binding.mainLayout
         setContentView(view)
-        permissionButton = view.findViewById(R.id.button) as Button
-        permissionButton.setOnClickListener {
+        cameraButton = view.findViewById(R.id.camera_button) as Button
+        contactsButton = view.findViewById(R.id.contacts_button) as Button
+        cameraButton.setOnClickListener {
             onClickRequestPermission(view)
+        }
+        contactsButton.setOnClickListener {
+            contactPermission(view)
         }
     }
 
@@ -58,18 +64,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    fun onClickRequestPermission(view: View) {
+    private fun onClickRequestPermission(view: View) {
         when {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
-                layout.showSnackbar(
-                    view,
-                    getString(R.string.permission_granted),
-                    Snackbar.LENGTH_INDEFINITE,
-                    null
-                ) {}
+                Toast.makeText(this, "No camera activity, sorry!", Toast.LENGTH_SHORT).show()
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -91,6 +92,37 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 requestPermissionLauncher.launch(
                     Manifest.permission.CAMERA
+                )
+            }
+        }
+    }
+
+    private fun contactPermission(view: View) {
+        when {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                Toast.makeText(this, "No suspect to call!", Toast.LENGTH_SHORT).show()
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.READ_CONTACTS
+            ) -> {
+                layout.showSnackbar(
+                    view,
+                    getString(R.string.contact_permission_required),
+                    Snackbar.LENGTH_INDEFINITE,
+                    getString(R.string.ok)
+                ) {
+                    requestPermissionLauncher.launch(
+                        Manifest.permission.READ_CONTACTS
+                    )
+                }
+            }
+
+            else -> {
+                requestPermissionLauncher.launch(
+                    Manifest.permission.READ_CONTACTS
                 )
             }
         }
