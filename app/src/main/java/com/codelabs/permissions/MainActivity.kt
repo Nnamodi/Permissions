@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             onClickRequestPermission(view)
         }
         contactsButton.setOnClickListener {
-            contactPermission(view)
+            contactPermission()
         }
     }
 
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 layout.showSnackbar(
                     view,
                     getString(R.string.permission_required),
-                    Snackbar.LENGTH_INDEFINITE,
+                    Snackbar.LENGTH_LONG,
                     getString(R.string.ok)
                 ) {
                     requestPermissionLauncher.launch(
@@ -97,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun contactPermission(view: View) {
+    private fun contactPermission() {
         when {
             ContextCompat.checkSelfPermission(
                 this, Manifest.permission.READ_CONTACTS
@@ -108,23 +109,25 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.shouldShowRequestPermissionRationale(
                 this, Manifest.permission.READ_CONTACTS
             ) -> {
-                layout.showSnackbar(
-                    view,
-                    getString(R.string.contact_permission_required),
-                    Snackbar.LENGTH_INDEFINITE,
-                    getString(R.string.ok)
-                ) {
-                    requestPermissionLauncher.launch(
-                        Manifest.permission.READ_CONTACTS
-                    )
-                }
+                dialog()
             }
 
             else -> {
-                requestPermissionLauncher.launch(
-                    Manifest.permission.READ_CONTACTS
-                )
+                dialog()
             }
         }
+    }
+
+    private fun dialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setPositiveButton(R.string.continue_text) { _, _ ->
+            requestPermissionLauncher.launch(
+                Manifest.permission.READ_CONTACTS
+            )
+        }
+        builder.setNegativeButton(R.string.not_now_text) { _, _ -> }
+        builder.setTitle(R.string.dialog_title)
+        builder.setMessage(R.string.builder_message)
+        builder.create().show()
     }
 }

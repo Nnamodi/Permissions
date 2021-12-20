@@ -1,4 +1,4 @@
-package com.bignerdranch.android.permissionscodelab
+package com.codelabs.permissions
 
 import org.junit.Test
 

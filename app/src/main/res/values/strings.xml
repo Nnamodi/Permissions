@@ -2,9 +2,10 @@
     <string name="app_name">Permissions Codelab</string>
     <string name="permission_required">Camera access is required to display the camera preview.</string>
     <string name="ok">OK</string>
-    <string name="permission_granted">Permission is granted. You can use the camera now.</string>
     <string name="camera">Camera</string>
     <string name="read_contacts">Read Contacts</string>
-    <string name="contact_permission_required">Contact access is required to fetch number.</string>
-    <string name="contact_permission_granted">Permission is granted. You can read contacts now.</string>
+    <string name="builder_message">To fetch number, allow Permissions Codelab access to your contacts.</string>
+    <string name="continue_text">Continue</string>
+    <string name="not_now_text">Not Now</string>
+    <string name="dialog_title">Contact Permission</string>
 </resources>
